@@ -30,11 +30,9 @@ The LinkedIn Dashboard is a data analysis tool designed to provide insights into
 
 ## Files:
 
-- `followers.py`: Python script for analyzing follower data.
-- `visitors.py`: Python script for analyzing visitor data.
-- `content.py`: Python script for analyzing content engagement metrics.
-- `constant.py`: Python script containing constant values used in the analysis.
-- `functions.py`: Python script containing helper functions used in the analysis.
+- `app.py`: Python script for backend.
+- `input.py`: Python script for customizable subject, body according to each form.
+
 
 ## To Install Dependencies:
 ```Pip install -r requirements.txt```
@@ -46,11 +44,9 @@ The LinkedIn Dashboard is a data analysis tool designed to provide insights into
 ## Folder Structure:
 ```
 Main_Files/
-├── followers.py
-├── visitors.py
-├── content.py
-├── constant.py
-└── functions.py
+├── app.py
+├── data.txt
+└── input.py
 requirements.txt
 ```
 
