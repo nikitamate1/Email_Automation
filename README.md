@@ -1,55 +1,96 @@
-# LinkedIn Dashboard
+# Email Automation System
+This project is an email automation system built using Flask and Streamlit. It handles incoming webhook requests to send automated emails and allows updating email content via a Streamlit interface. The email system supports both plain text and HTML emails, integrating with Brevo (formerly known as SendinBlue) for sending emails.
 
-The LinkedIn Dashboard is a data analysis tool designed to provide insights into various aspects of an organization's LinkedIn presence. Leveraging data obtained from the LinkedIn Analytics section, this dashboard offers comprehensive analysis of follower engagement, visitor metrics, and content performance.
-
-## Key Features:
-* Follower Analysis: Explore trends in follower growth, demographics, and engagement metrics over time. Identify key factors driving follower activity and engagement.
-
-* Visitor Metrics: Gain insights into visitor demographics, traffic sources, and behavior on the LinkedIn page. Understand how visitors interact with the organization's content and profile.
-
-* Content Engagement: Analyze the performance of individual posts and content campaigns. Evaluate engagement metrics such as likes, comments, shares, and click-through rates to optimize content strategy.
-
-* Customizable Reports: Generate customizable reports and visualizations to track key performance indicators (KPIs) and metrics relevant to the organization's LinkedIn goals.
-
-* User-Friendly Interface: Intuitive and easy-to-use interface for navigating through data visualizations, filtering data, and accessing detailed insights.
-
-* Data Upload and Analysis: Easily upload data from LinkedIn Analytics for specific time periods and sections (followers, visitors, content) for in-depth analysis.
-
-* Constant Updates: Continuously updated to incorporate new features, enhancements, and compatibility with the latest LinkedIn Analytics APIs and data formats.
-
-## Benefits:
-* Data-Driven Decisions: Make informed decisions based on data-driven insights derived from LinkedIn engagement metrics and audience behavior.
-
-* Optimized Content Strategy: Tailor content strategy and posting schedules to maximize engagement, reach, and impact on LinkedIn.
-
-* Audience Understanding: Gain a deeper understanding of the organization's LinkedIn audience, their preferences, and behaviors to better target and engage with them.
-
-* Performance Tracking: Track the performance of LinkedIn campaigns, content initiatives, and follower growth efforts to measure ROI and effectiveness.
-
-* Competitive Analysis: Benchmark performance against industry standards and competitors to identify opportunities for improvement and innovation.
-
-## Files:
-
-- `app.py`: Python script for backend.
-- `input.py`: Python script for customizable subject, body according to each form.
+## Features
+* Automated Email Sending: Send automated emails in response to webhook events.
+* HTML Email Support: Emails can be formatted in HTML, including clickable links.
+* Dynamic Email Content: Update email subjects and bodies based on form IDs.
+* BCC Support: Emails can include BCC recipients.
+* Secure Communication: HMAC signature verification ensures that only legitimate webhook events are processed.
 
 
-## To Install Dependencies:
-```Pip install -r requirements.txt```
+## Prerequisites
+Download prerequisites by using following command:
+``` pip install -r requirements.txt ```
 
-## To Run Script:
+## Installation
+1. Clone the repository:
 
-```streamlit run app.py```
+```git clone https://github.com/yourusername/email-automation-system.git```
+```cd Main_Files```
 
-## Folder Structure:
+2. Install dependencies:
+
+* ```pip install -r requirements.txt```
+* Set up environment variables:
+* Create a .env file in the root directory and add the following environment variables:
+
+3. Environment Variables(.env)
+
+* SMTP_SERVER=smtp.brevo.com
+* SMTP_PORT=587
+* NOREPLY_EMAIL=your-email@domain.com
+* EMAIL_PASSWORD=your-email-password
+* TYPEFORM_SECRET=your-typeform-secret*
+
+## Running the Application
+* Start the Flask server:
+
+```python app.py```
+
+* Start the ngrok server:
+
+```ngrok http 5000```
+
+* Start the Streamlit interface in another terminal:
+
+```streamlit run input.py```
+
+## Usage
+1. Sending Automated Emails
+Emails are sent in response to webhook events from Typeform. The webhook payload includes a form_id, which is used to determine the subject and body of the email. The email content is loaded from a data.txt file that stores the subject and body for each form ID.
+
+2. Updating Email Content
+The Streamlit interface allows updating the email content for different form IDs.
+
+Open the Streamlit interface:
+Go to ``` http://localhost:8501 ``` in your web browser.
+
+3. Enter Form ID, Subject, and Body:
+
+* Enter the Form ID for which you want to update the content.
+* Enter the Subject Line.
+* Enter the Body Text.
+
+4. Update Content:
+Click the "Update Email Content" button. The content will be converted to HTML and updated in the data.txt file.
+
+## How Emails are Sent
+
+### Webhook Handling:
+
+* The /api/webhook endpoint receives webhook events from Typeform.
+* The payload includes the form_id and responses, including email addresses.
+* The signature of the payload is verified using HMAC to ensure it’s from a legitimate source.
+* Content Loading: The form_id from the payload is used to load the corresponding subject and body from the data.txt file.
+If a match is found, the email content is prepared and personalized.
+Email Sending:
+
+* Emails are sent using the SMTP server of Brevo.
+* The send_automated_emails function sends the emails, supporting both plain text and HTML formats.
+
+
+### File Structure
 ```
-Main_Files/
-├── app.py
-├── data.txt
-└── input.py
-requirements.txt
+email-automation-system/
+│
+├── app.py              # Flask application to handle webhooks and send emails
+├── input.py            # Streamlit application to update email content
+├── requirements.txt    # Python dependencies
+├── data.txt            # Stores email content for different form IDs
+└── .env                # Environment variables
 ```
 
-## Data:
-You need to visit your company's LinkedIn page, navigate to the analytics section, and download the desired data for the specific date range. Afterward, run the app.py file using the command streamlit run Main_Files/app.py and upload the respective data files. Upload content data to the content section, and likewise, upload follower and visitor data to their corresponding sections.
+* Logging
+Logs are stored in app.log and include information about received webhooks, email sending status, and errors.
 
